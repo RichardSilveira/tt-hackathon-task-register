@@ -1,7 +1,7 @@
 # NOTE: update this with your service name
 service: task-register
 
-# Create an optimized package for our functions 
+# Create an optimized package for our functions
 package:
   individually: true
 
@@ -12,7 +12,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs14.x
   stage: dev
   region: us-east-1
   # To load environment variables externally
@@ -24,9 +24,15 @@ provider:
   #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
 
 functions:
-  hello:
-    handler: handler.hello
+  registerTasks:
+    handler: task.registerTasks
     events:
       - http:
-          path: hello
+          path: tasks
+          method: post
+  getTasks:
+    handler: task.getTasks
+    events:
+      - http:
+          path: tasks
           method: get
