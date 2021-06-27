@@ -13,6 +13,7 @@ function logMetadata() {
   });
 }
 // curl -X POST http://localhost:4000/dev/tasks -H "Content-Type: application/json" -d @registerTaskSample.json
+// POST - https://4t6blqidpl.execute-api.us-east-1.amazonaws.com/dev/tasks
 export const registerTasks = async (event, context) => {
   logMetadata();
   console.log('3'); // testing the hot reloading changes
@@ -35,6 +36,7 @@ export const registerTasks = async (event, context) => {
 
 // npm i -g json ->
 // curl http://localhost:4000/dev/tasks/005013b9-6eb0-4d7d-a524-c506186ec071 -H "Content-Type: application/json" | json
+// GET - https://4t6blqidpl.execute-api.us-east-1.amazonaws.com/dev/tasks/{employeeId}
 export const getTasks = async (event, context) => ({
   statusCode: 200,
   body: JSON.stringify({
