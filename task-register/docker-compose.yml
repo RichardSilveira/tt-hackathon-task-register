@@ -1,11 +1,11 @@
 version: "3.9"
 services:
   app:
-    container_name: task-registerapp
+    container_name: task-register
     build:
       context: .
-    image: task-registerapp:local
-    ports: 
+    image: task-register:local
+    ports:
       - 4000:4000
     volumes:
       - ./:/app

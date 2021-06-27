@@ -18,17 +18,23 @@ custom:
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: dev
-  region: us-east-1
-  # To load environment variables externally
-  # rename env.example to .env and uncomment
-  # the following line. Also, make sure to not
-  # commit your .env.
-  #
-  #environment:
-  #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+  memorySize: 512
+  timeout: 30
+  role: arn:aws:iam::051826142769:role/lambda-task-registration-role
+  apiKeys:
+    - companyInternalUsagePlan:
+      - company-internal-shared-key # this key can be used for a Custom Authorizer
+  usagePlan:
+    - companyInternalUsagePlan:
+        throttle:
+          burstLimit: 100
+          rateLimit: 200
+        quota:
+          limit: 200_000
+          period: MONTH
 
-
+environment:
+  STAGE: ${opt:stage}
 
 functions:
   registerTasks:
@@ -41,5 +47,5 @@ functions:
     handler: task.getTasks
     events:
       - http:
-          path: tasks
+          path: tasks/{employeeId}
           method: get

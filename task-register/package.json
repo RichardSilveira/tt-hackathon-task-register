@@ -4,8 +4,11 @@
   "description": "A Node.js starter for Serverless Framework with ES6 and TypeScript support",
   "main": "handler.js",
   "scripts": {
-    "local": "serverless offline start --stage dev",
-    "test": "serverless-bundle test"
+    "local": "serverless offline start --stage dev --region us-east-1 --profile tt-admin",
+    "test": "serverless-bundle test",
+    "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
+    "deploy": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
+    "lint": "npx eslint --fix --ext .js ./"
   },
   "author": "",
   "license": "MIT",
@@ -14,8 +17,15 @@
     "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
   },
   "devDependencies": {
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
     "serverless-bundle": "4.3.1",
     "serverless-dotenv-plugin": "^3.9.0",
-    "serverless-offline": "^7.0.0"
+    "serverless-offline": "^7.0.0",
+    "serverless-pseudo-parameters": "^2.5.0"
+  },
+  "dependencies": {
+    "uninstall": "^0.0.0"
   }
 }

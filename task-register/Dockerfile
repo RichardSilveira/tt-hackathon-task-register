@@ -7,7 +7,6 @@ RUN apt-get install -y vim
 RUN npm i -g serverless
 
 COPY package*.json .
-
 RUN npm i
 
 COPY . ./
