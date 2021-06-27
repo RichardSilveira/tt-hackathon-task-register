@@ -9,3 +9,5 @@ services:
       - 4000:4000
     volumes:
       - ./:/app
+
+#todo: Hot reloading using Docker is not fully tested yet (without Docker is working fine

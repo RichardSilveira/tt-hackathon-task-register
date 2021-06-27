@@ -26,6 +26,8 @@
     "serverless-pseudo-parameters": "^2.5.0"
   },
   "dependencies": {
-    "uninstall": "^0.0.0"
+    "aws-sdk": "^2.935.0",
+    "uninstall": "^0.0.0",
+    "uuid": "^8.3.2"
   }
 }

@@ -12,7 +12,7 @@ plugins:
 
 custom:
   serverless-offline:
-    host: 0.0.0.0
+    # host: 0.0.0.0
     httpPort: 4000
 
 provider:
@@ -35,6 +35,7 @@ provider:
 
 environment:
   STAGE: ${opt:stage}
+  REGION: ${opt:region}
 
 functions:
   registerTasks:
@@ -43,9 +44,11 @@ functions:
       - http:
           path: tasks
           method: post
+          cors: false
   getTasks:
     handler: task.getTasks
     events:
       - http:
           path: tasks/{employeeId}
           method: get
+          cors: false
