@@ -38,6 +38,12 @@ environment:
   REGION: ${opt:region}
 
 functions:
+  slackEvents:
+    handler: slack.events
+    events:
+      - http:
+          path: slack/events
+          method: post
   registerTasks:
     handler: task.registerTasks
     events:
