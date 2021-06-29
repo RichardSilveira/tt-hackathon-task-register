@@ -12,7 +12,7 @@ plugins:
 
 custom:
   serverless-offline:
-    # host: 0.0.0.0
+    host: 0.0.0.0
     httpPort: 4000
 
 provider:

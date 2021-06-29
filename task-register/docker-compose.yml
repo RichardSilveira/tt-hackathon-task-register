@@ -8,6 +8,8 @@ services:
     ports:
       - 4000:4000
     volumes:
-      - ./:/app
+      - .:/app
+      - /app/node_modules
 
 #todo: Hot reloading using Docker is not fully tested yet (without Docker is working fine
+# https://github.com/dherault/serverless-offline/issues/931 -> That discussion could help with live reloading in docker issue...

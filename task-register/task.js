@@ -16,7 +16,7 @@ function logMetadata() {
 // POST - https://4t6blqidpl.execute-api.us-east-1.amazonaws.com/dev/tasks
 export const registerTasks = async (event, context) => {
   logMetadata();
-  console.log('3'); // testing the hot reloading changes
+  console.log('4'); // testing the hot reloading changes
 
   const registerTaskReq = JSON.parse(event.body);
   console.log(registerTaskReq);
@@ -41,7 +41,7 @@ export const getTasks = async (event, context) => ({
   statusCode: 200,
   body: JSON.stringify({
     data: [registerTaskSampleJson,
-      { ...registerTaskSampleJson, taskDescription: 'Code review', taskTime: 3 },
-      { ...registerTaskSampleJson, taskDescription: 'meetings', taskTime: 4 }],
+      { ...registerTaskSampleJson, taskDescription: 'Code review 2', taskTime: 3 },
+      { ...registerTaskSampleJson, taskDescription: 'meetings 8', taskTime: 4 }],
   }),
 });
