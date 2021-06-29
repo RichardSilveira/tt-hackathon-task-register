@@ -29,8 +29,20 @@ const app = new App({
 
 app.message('hello', async ({ message, say }) => {
   // say() sends a message to the channel where the event was triggered
-  await say(`Hey there <@${message.user}>!`);
+  await say(`Hey there 2 <@${message.user}>!`);
 });
+
+app.command('/tt', async ({ command, ack, say }) => {
+  // Acknowledge command request
+  await ack();
+
+  try {
+    await say(`${command.text} to ${command.user_name}`);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 app.message('hey', async ({ message, say }) => {
   // say() sends a message to the channel where the event was triggered
   await say({
@@ -62,12 +74,6 @@ app.message('goodbye', async ({ message, say }) => {
 
 export const events = async (event, context, callback) => {
   logMetadata();
-
-  // Listens to incoming messages that contain "hello"
-  app.message('hello', async ({ message, say }) => {
-    // say() sends a message to the channel where the event was triggered
-    await say(`Hey there <@${message.user}>!`);
-  });
 
   const handler = await app.start();
 
