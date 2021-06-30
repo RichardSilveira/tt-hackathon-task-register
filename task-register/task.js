@@ -1,4 +1,3 @@
-const { App } = require('@slack/bolt');
 const AWS = require('aws-sdk');
 const registerTaskSampleJson = require('./registerTaskSample.json');
 
@@ -15,13 +14,13 @@ function logMetadata() {
 }
 
 /* ngrok sample:
- curl -X POST https://2d8eaaf0ad1f.ngrok.io/tasks -H "Content-Type: application/json" -d @registerTaskSample.json
+ curl -X POST https://413e23aed16d.ngrok.io/tasks -H "Content-Type: application/json" -d @registerTaskSample.json
  */
 // curl -X POST http://localhost:4000/dev/tasks -H "Content-Type: application/json" -d @registerTaskSample.json
 // POST - https://4t6blqidpl.execute-api.us-east-1.amazonaws.com/dev/tasks
 export const registerTasks = async (event, context) => {
   logMetadata();
-  console.log('4'); // testing the hot reloading changes
+  console.log('6'); // testing the hot reloading changes
 
   const registerTaskReq = JSON.parse(event.body);
   console.log(registerTaskReq);

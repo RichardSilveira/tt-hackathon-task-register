@@ -1,8 +1,8 @@
-FROM node:14
+FROM node:14-alpine
 
 WORKDIR /app
-RUN apt-get update
-RUN apt-get install -y vim
+RUN apk update
+RUN apk add vim
 
 RUN npm i -g serverless
 

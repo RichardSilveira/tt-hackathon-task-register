@@ -5,11 +5,18 @@ services:
     build:
       context: .
     image: task-register:local
-    ports:
+    ports: 
       - 4000:4000
     volumes:
       - .:/app
       - /app/node_modules
-
-#todo: Hot reloading using Docker is not fully tested yet (without Docker is working fine
-# https://github.com/dherault/serverless-offline/issues/931 -> That discussion could help with live reloading in docker issue...
+  ngrok:
+    image: wernight/ngrok:latest
+    ports: 
+      - 4040:4040
+    depends_on:
+      - app
+    environment:
+      NGROK_PROTOCOL: http
+      NGROK_PORT: app:4000
+      NGROK_AUTH: ${NGROK_AUTH} # https://dashboard.ngrok.com/get-started/your-authtoken
