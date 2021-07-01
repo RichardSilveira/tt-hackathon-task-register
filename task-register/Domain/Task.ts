@@ -8,13 +8,13 @@ import {
 @table('Task')
 export default class Task {
   @hashKey()
-  employeeId: string;
+  employeeId:string;
 
   @rangeKey()
-  registeredAt: Date;
+  registeredAt:Date;
 
   @attribute()
-  employeeName: string;
+  employeeName:string;
 
   @attribute()
   taskCategory:string;

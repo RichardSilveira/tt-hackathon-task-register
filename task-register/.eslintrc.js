@@ -20,5 +20,6 @@ module.exports = {
     'no-unused-vars': 'off',
     'prefer-destructuring': 'off',
     'linebreak-style': 'off',
+    '@typescript-eslint/no-extra-semi': 'off'
   }
 }

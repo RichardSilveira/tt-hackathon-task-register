@@ -50,6 +50,8 @@ app.command('/tt', async ({ command, ack, say }) => {
 export async function events(event, context) {
   logMetadata();
 
+  console.log('event.body:', event.body);
+
   const bolt:any = await app.start();
 
   return bolt(event, context);
