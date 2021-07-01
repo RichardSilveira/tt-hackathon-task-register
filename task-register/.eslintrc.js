@@ -1,29 +1,24 @@
 module.exports = {
+  root: true,
   env: {
-    browser: true,
-    es6: true,
+    node: true,
   },
-  extends: [
-    'airbnb-base',
-  ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module',
+    project: ['./tsconfig.eslint.json'], // Specify it only for TypeScript files
   },
+  plugins: ["@typescript-eslint", 'import'],
+  extends: ['airbnb-typescript/base'],
   rules: {
     'max-len': 'off',
     'no-console': 'off',
-    semi: [2, 'always', { omitLastInOneLineBlock: true }],
+    semi: [2, 'always', {omitLastInOneLineBlock: true}],
     'function-paren-newline': ['error', 'never'],
     'import/prefer-default-export': 0,
-    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'no-plusplus': ['error', {allowForLoopAfterthoughts: true}],
     'operator-assignment': 1,
     'no-unused-vars': 'off',
     'prefer-destructuring': 'off',
     'linebreak-style': 'off',
-  },
-};
+  }
+}

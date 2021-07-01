@@ -133,7 +133,7 @@ custom:
     linting: false
 ```
 
-To [override the default config](https://eslint.org/docs/user-guide/configuring), add a `.eslintrc.json` file. To ignore ESLint for specific files, add it to a `.eslintignore` file.
+To [override the default config](https://eslint.org/docs/user-guide/configuring), add a `.eslintrcon` file. To ignore ESLint for specific files, add it to a `.eslintignore` file.
 
 ### Support
 

@@ -9,7 +9,7 @@
     "test": "serverless-bundle test",
     "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
     "deploy": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
-    "lint": "npx eslint --fix --ext .js ./"
+    "lint": "npx eslint --fix --ext .js --ext .ts ./"
   },
   "author": "",
   "license": "MIT",
@@ -18,16 +18,25 @@
     "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
     "serverless-bundle": "4.3.1",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-offline": "^7.0.0",
-    "serverless-pseudo-parameters": "^2.5.0"
+    "serverless-pseudo-parameters": "^2.5.0",
+    "typescript": "^4.3.5"
   },
   "dependencies": {
+    "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
     "@slack/bolt": "^3.4.0",
+    "@types/aws-lambda": "^8.10.77",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.12.5",
     "aws-sdk": "^2.935.0",
     "uninstall": "^0.0.0",
     "uuid": "^8.3.2"

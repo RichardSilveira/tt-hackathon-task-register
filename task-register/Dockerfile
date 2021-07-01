@@ -7,7 +7,8 @@ RUN apk add vim
 RUN npm i -g serverless
 
 COPY package*.json .
-RUN npm i
+
+RUN npm ci
 
 COPY . ./
 
