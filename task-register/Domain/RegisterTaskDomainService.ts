@@ -1,8 +1,12 @@
-import Task from './Task';
+import TaskEntry from './TaskEntry';
+import type { ITaskExtractorHandler } from './ITaskExtractorHandler';
 
 export default class RegisterTaskDomainService {
-  extractTasksFromText(rawText: string): ReadonlyArray<Task> {
-    const tasks: Task[] = [new Task()];
+  constructor(private readonly taskExtractorHandler: ITaskExtractorHandler) {
+  }
+
+  extractTasksFromText(rawText: string): TaskEntry[] {
+    const tasks: TaskEntry[] = [];
     return tasks;
   }
 }
