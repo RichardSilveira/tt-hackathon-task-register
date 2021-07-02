@@ -17,7 +17,7 @@ export default class Task {
   employeeName:string;
 
   @attribute()
-  taskCategory:string;
+  taskCategory:string; // 'Other' always for simplicity
 
   @attribute()
   taskDescription:string;

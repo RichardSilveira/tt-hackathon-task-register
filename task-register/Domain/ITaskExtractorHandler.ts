@@ -1,6 +1,5 @@
-import Task from './Task';
+import type TaskEntry from './TaskEntry';
 
-export default interface ITaskExtractorHandler {
-
-  extract(rawText: string): ReadonlyArray<Task>;
+export interface ITaskExtractorHandler {
+  extract(rawText: string): TaskEntry[] // todo: ReadOnlyArray
 }

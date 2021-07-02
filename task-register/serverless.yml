@@ -16,6 +16,7 @@ custom:
     httpPort: 4000
   bundle:
     tsConfig: "tsconfig.eslint.json"
+    linting: false
 
 provider:
   name: aws

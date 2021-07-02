@@ -1,5 +1,7 @@
-import { APIGatewayProxyHandler } from 'aws-lambda';
-import { App, AwsLambdaReceiver, ReceiverEvent } from '@slack/bolt';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import type { APIGatewayProxyHandler } from 'aws-lambda';
+import { App, AwsLambdaReceiver } from '@slack/bolt';
 
 // import Task from 'Domain/Task';
 
@@ -47,7 +49,7 @@ app.command('/tt', async ({ command, ack, say }) => {
   }
 });
 
-export async function events(event, context) {
+export const events: APIGatewayProxyHandler = async (event, context) => {
   logMetadata();
 
   console.log('event.body:', event.body);
@@ -55,4 +57,4 @@ export async function events(event, context) {
   const bolt:any = await app.start();
 
   return bolt(event, context);
-}
+};

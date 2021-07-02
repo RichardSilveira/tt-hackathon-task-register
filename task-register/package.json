@@ -6,10 +6,12 @@
   "scripts": {
     "local:fullurl": "serverless offline start --printOutput --stage dev --region us-east-1 --profile tt-admin",
     "local": "serverless offline start --noPrependStageInUrl --printOutput --stage dev --region us-east-1 --profile tt-admin",
-    "test": "serverless-bundle test",
+    "test": "npx jest --no-cache",
+    "test:watch": "npx jest --watch",
     "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
     "deploy": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
-    "lint": "npx eslint --fix --ext .js --ext .ts ./"
+    "lint": "npx eslint --fix --ext .ts ./",
+    "build": "tsc"
   },
   "author": "",
   "license": "MIT",
@@ -18,8 +20,10 @@
     "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.14.7",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
+    "babel-jest": "^26.6.3",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -39,6 +43,7 @@
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.5",
     "aws-sdk": "^2.935.0",
+    "jest": "^26.6.3",
     "uninstall": "^0.0.0",
     "uuid": "^8.3.2"
   }
