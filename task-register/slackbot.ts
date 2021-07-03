@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { APIGatewayProxyHandler } from 'aws-lambda';
-import { App, AwsLambdaReceiver } from '@slack/bolt';
 
+import { DataMapper } from '@aws/dynamodb-data-mapper';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
+
+import { App, AwsLambdaReceiver } from '@slack/bolt';
+import RegisterTaskDomainService from 'Domain/RegisterTaskDomainService';
+import SingleLineTaskExtractorHandler from './Domain/SingleLineTaskExtractorHandler';
 // import Task from 'Domain/Task';
 
 const { STAGE } = process.env;
@@ -21,6 +26,10 @@ function logMetadata() {
   });
 }
 
+const mapper = new DataMapper({
+  client: new DynamoDB({ region: REGION }), // the SDK client used to execute operations
+});
+
 const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: SLACK_SIGNING_SECRET,
 });
@@ -36,14 +45,15 @@ app.command('/tt', async ({ command, ack, say }) => {
   // Acknowledge command request
   await ack();
 
-  // const task = new Task();
-
-  // task.employeeId = command.user_id;
-
   try {
-    // command.user_id
+    const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());
 
-    await say(`${command.text} to ${command.user_name}`);
+    const tasks = registerTaskDomainService.generateTasksFrom(command.text, command.user_id, command.user_name);
+
+    const objectSaved = await mapper.put(tasks[0]);
+    console.log(objectSaved);
+
+    await say(`${objectSaved} to ${command.user_name} | ${command.user_id}`);
   } catch (e) {
     console.log(e);
   }
@@ -54,7 +64,7 @@ export const events: APIGatewayProxyHandler = async (event, context) => {
 
   console.log('event.body:', event.body);
 
-  const bolt:any = await app.start();
+  const bolt: any = await app.start();
 
   return bolt(event, context);
 };

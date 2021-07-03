@@ -1,28 +1,44 @@
-import TaskEntry from './TaskEntry';
 import type { ITaskExtractorHandler } from './ITaskExtractorHandler';
 import Task from './Task';
 
 export default class RegisterTaskDomainService {
+  // todo: For the demo only
+  public static readonly sampleFocalPoint = {
+    focalPointId: 'baec79ec-876b-45d7-bb33-eed3611184d6',
+    focalPointName: 'André Young',
+  };
+
+  // todo: For the demo only
+  public static readonly sampleTaskCategory = 'Software Development';
+
   constructor(private readonly taskExtractorHandler: ITaskExtractorHandler) {
   }
 
-  extractTasksEntriesFrom(rawText: string): TaskEntry[] {
-    const tasks: TaskEntry[] = [];
+  generateTasksFrom(rawText: string, employeeId: string, employeeName: string) : Task[] {
+    /* archnote: for the MVP Demo we'll the slack' userId as the employeeId, but for the arch design we should consider
+     a integration with the BairesDev IdP that should deliver to us a "subject" - a BairesDev org unique user identifier.
+     Even if they don't implement any OpenId/OAuth/SAML protocol, they should deliver that unique user id somehow that we can use it.
+     */
 
-    // apply bussines rules related to what is a valid instance of a Task entry, e.g. you can't register future hours | can't register more that 9hs in a single row
-    // todo: No, the right way is apply those rules in the Task Entry Value Object, then I think I can simplify this method to return a Task directly
+    const taksEntries = this.taskExtractorHandler.extract(rawText);
 
-    return tasks;
+    return taksEntries.map((t) => ({
+      employeeId,
+      employeeName,
+      ...RegisterTaskDomainService.sampleFocalPoint,
+      taskCategory: RegisterTaskDomainService.sampleTaskCategory,
+      taskDescription: t.description,
+      registeredAt: t.date,
+      taskTime: t.time,
+    } as Task));
+
+    // todo: simplest version for the demo
   }
 
-  generateTask(employeeId: string) : Task {
-
-  }
-
-  //! We should have a TaskQueryService (or TaskRepository (better) ) to deliver the CURRENT Focal Point | Project given an employeeId
-  // A EmployeeTaskSettings is better for that
+  // archnote:
+  // A EmployeeTaskSettings is better for that - DynamoDb on itself can be considered a good caching datasourcing for that scenario.
   // Projects | FocalPoints -> same table? Those information will came from the current Baires system' integration (that we could replicate
-  // them in our tables for a better performance
+  // them in our tables for a better performance (Douglas: what about Absense?)
 
   // todo: Create the relation of Task Description x Task Category (not for the MVP, we'll register the Task Categories as Other
   // Plus we won't have a list of pre-defined Task Description, BUT we should design how to reply back to the user with the valid Task Description

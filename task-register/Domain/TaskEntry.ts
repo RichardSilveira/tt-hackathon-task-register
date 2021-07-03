@@ -3,3 +3,5 @@ export default class TaskEntry {
 
   }
 }
+// todo: Update this Value Object to not allow create an invalid Task entry,
+//  e.g. a single task can't have more than 9 hs | can't have a future date

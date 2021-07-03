@@ -16,9 +16,21 @@ export default class Task {
   @attribute()
   employeeName:string;
 
+  /* @attribute()
+  employeeEmail:string; */
+
+  @attribute()
+  focalPointId:string;
+
+  @attribute()
+  focalPointName:string;
+
   @attribute()
   taskCategory:string; // 'Other' always for simplicity
 
   @attribute()
   taskDescription:string;
+
+  @attribute()
+  taskTime:number;
 }
