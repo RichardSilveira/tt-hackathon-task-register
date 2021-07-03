@@ -6,7 +6,7 @@
   "scripts": {
     "local:fullurl": "serverless offline start --printOutput --stage dev --region us-east-1 --profile tt-admin",
     "local": "serverless offline start --noPrependStageInUrl --printOutput --stage dev --region us-east-1 --profile tt-admin",
-    "test": "npx jest --no-cache",
+    "test": "npx jest",
     "test:watch": "npx jest --watch",
     "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
     "deploy": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
