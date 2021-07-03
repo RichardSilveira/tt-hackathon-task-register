@@ -65,6 +65,7 @@ describe('Extracting task entries from a single line raw text user input', () =>
       // Assert
       expect(receivedTaskEntries).toStrictEqual(expectedTaskEntries);
     });
+
     it('When a american format date is informed as expected, should return task entries using the informed date', () => {
       // Arrange
       const taskExtractorHandler = new SingleLineTaskExtractorHandler();
