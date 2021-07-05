@@ -44,7 +44,8 @@ const app = new App({
 app.command('/tt', async ({ command, ack, say }) => {
   // Acknowledge command request
   await ack();
-  console.log('test 3');
+  console.log('test 4');
+  console.log('test 5');
 
   try {
     const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());

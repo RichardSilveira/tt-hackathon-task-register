@@ -18,7 +18,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: node --inspect-brk=0.0.0.0:9229 /opt/project/node_modules/.bin/serverless offline --host 0.0.0.0 --httpPort 4000 --printOutput --stage dev --region us-east-1 --profile tt-admin
+    command: node --inspect-brk=0.0.0.0:9229 /app/node_modules/.bin/serverless offline --host 0.0.0.0 --httpPort 4000 --printOutput --stage dev --region us-east-1 --profile tt-admin
 
   ngrok:
     image: wernight/ngrok:latest
