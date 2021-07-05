@@ -1,7 +1,7 @@
 import type { ITaskExtractorHandler } from './ITaskExtractorHandler';
 import TaskEntry from './TaskEntry';
 
-export default class SingleLineTaskExtractorHandler implements ITaskExtractorHandler {
+export class SingleLineTaskExtractorHandler implements ITaskExtractorHandler {
   // TODO: code should be refactored later. Plus, we could inject another TaskExtractorHandler class (e.g. a smarter one)
   extract(rawText: string): TaskEntry[] {
     try {

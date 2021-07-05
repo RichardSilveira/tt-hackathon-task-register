@@ -6,15 +6,15 @@ import { DataMapper } from '@aws/dynamodb-data-mapper';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 
 import { App, AwsLambdaReceiver } from '@slack/bolt';
-import RegisterTaskDomainService from 'Domain/RegisterTaskDomainService';
-import SingleLineTaskExtractorHandler from './Domain/SingleLineTaskExtractorHandler';
+import { RegisterTaskDomainService } from './Domain/RegisterTaskDomainService';
+import { SingleLineTaskExtractorHandler } from './Domain/SingleLineTaskExtractorHandler';
 // import Task from 'Domain/Task';
 
-const { STAGE } = process.env;
-const { REGION } = process.env;
-const { SLACK_SIGNING_SECRET } = process.env;
-const { SLACK_BOT_TOKEN } = process.env;
-const { SLACK_USER_TOKEN } = process.env;
+const STAGE = process.env.STAGE;
+const REGION = process.env.REGION;
+const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
+const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
+const SLACK_USER_TOKEN = process.env.SLACK_BOT_TOKEN;
 
 function logMetadata() {
   console.log('environment variables:', {
@@ -44,13 +44,16 @@ const app = new App({
 app.command('/tt', async ({ command, ack, say }) => {
   // Acknowledge command request
   await ack();
+  console.log('test 3');
 
   try {
     const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());
 
     const tasks = registerTaskDomainService.generateTasksFrom(command.text, command.user_id, command.user_name);
+    const task = tasks[0];
+    console.log(task);
 
-    const objectSaved = await mapper.put(tasks[0]);
+    const objectSaved = await mapper.put(task);
     console.log(objectSaved);
 
     await say(`${objectSaved} to ${command.user_name} | ${command.user_id}`);

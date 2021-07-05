@@ -5,11 +5,21 @@ services:
     build:
       context: .
     image: task-register:local
+    environment:
+      NODE_ENV: development
+      REGION: ${REGION}
+      STAGE: ${STAGE}
+      SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_USER_TOKEN: ${SLACK_USER_TOKEN}
     ports:
       - 4000:4000
+      - 9229:9229
     volumes:
       - .:/app
       - /app/node_modules
+    command: node --inspect-brk=0.0.0.0:9229 /opt/project/node_modules/.bin/serverless offline --host 0.0.0.0 --httpPort 4000 --printOutput --stage dev --region us-east-1 --profile tt-admin
+
   ngrok:
     image: wernight/ngrok:latest
     ports:

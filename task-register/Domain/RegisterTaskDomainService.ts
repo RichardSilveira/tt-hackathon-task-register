@@ -1,7 +1,7 @@
 import type { ITaskExtractorHandler } from './ITaskExtractorHandler';
 import Task from './Task';
 
-export default class RegisterTaskDomainService {
+export class RegisterTaskDomainService {
   // todo: For the demo only
   public static readonly sampleFocalPoint = {
     focalPointId: 'baec79ec-876b-45d7-bb33-eed3611184d6',

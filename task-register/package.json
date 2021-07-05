@@ -2,10 +2,11 @@
   "name": "task-register",
   "version": "2.2.0",
   "description": "A Node.js starter for Serverless Framework with ES6 and TypeScript support",
-  "main": "handler.js",
+  "main": "slackbot.ts",
   "scripts": {
     "local:fullurl": "serverless offline start --printOutput --stage dev --region us-east-1 --profile tt-admin",
-    "local": "serverless offline start --noPrependStageInUrl --printOutput --stage dev --region us-east-1 --profile tt-admin",
+    "local": "node --inspect-brk=0.0.0.0:9229 -r ts-node/register serverless offline start --printOutput --stage dev --region us-east-1 --profile tt-admin",
+    "localsrc": "serverless offline start --printOutput --stage dev --region us-east-1 --profile tt-admin",
     "test": "npx jest",
     "test:watch": "npx jest --watch",
     "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
@@ -29,11 +30,13 @@
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
+    "serverless": "^2.50.0",
     "serverless-bundle": "4.3.1",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-offline": "^7.0.0",
     "serverless-pseudo-parameters": "^2.5.0",
     "ts-jest": "^26.5.6",
+    "ts-node": "^10.0.0",
     "typescript": "^4.3.5"
   },
   "dependencies": {
