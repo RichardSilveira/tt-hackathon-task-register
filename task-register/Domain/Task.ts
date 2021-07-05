@@ -5,7 +5,7 @@ import {
   table,
 } from '@aws/dynamodb-data-mapper-annotations';
 
-@table('Task')
+@table('TaskRegistration')
 export default class Task {
   @hashKey()
   employeeId:string;
