@@ -5,11 +5,11 @@ RUN apk update
 RUN apk add vim
 RUN apk add bash
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm ci
 
-COPY . ./
+COPY . ./app
 # RUN npm run build
 
 EXPOSE 4000
