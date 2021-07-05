@@ -22,7 +22,7 @@ export class RegisterTaskDomainService {
 
     const taksEntries = this.taskExtractorHandler.extract(rawText);
 
-    return taksEntries.map((t) => ({
+    const tasks = taksEntries.map((t) => Object.assign(new Task(), {
       employeeId,
       employeeName,
       ...RegisterTaskDomainService.sampleFocalPoint,
@@ -30,7 +30,11 @@ export class RegisterTaskDomainService {
       taskDescription: t.description,
       registeredAt: t.date,
       taskTime: t.time,
-    } as Task));
+    }));
+
+    // TODO save the tasks here.
+
+    return tasks;
 
     // todo: simplest version for the demo
   }
