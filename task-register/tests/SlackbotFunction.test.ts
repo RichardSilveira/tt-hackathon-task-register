@@ -15,9 +15,11 @@ import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { SharedIniFileCredentials } from 'aws-sdk';
 import { RegisterTaskDomainService } from '../Domain/RegisterTaskDomainService';
 import { SingleLineTaskExtractorHandler } from '../Domain/SingleLineTaskExtractorHandler';
+import Task from '../Domain/Task';
 
 const REGION = 'us-east-1';
 
+// For local tests only (using profile)
 const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
 
 const mapper = new DataMapper({
@@ -31,18 +33,24 @@ describe('Handling slack commands to register tasks', () => {
       user_name: 'richardleecba',
     };
 
-    it('Today: design check 2hs -> Should saves on database 1 Task', async () => {
+    it('When a command with a list of tasks are informed, should saves it on the database in AWS Dev environment', async () => {
       // Arrange
       const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());
-      command = { ...command, text: 'Today: design check 2hs' };
+      command = { ...command, text: 'Today: design check 2hs, meetings 1h, code review 3 hs' };
 
       const tasks = registerTaskDomainService.generateTasksFrom(command.text, command.user_id, command.user_name);
 
+      // Act
+      const saveTasksAsync = [];
       for (const task of tasks) {
-        console.log('2');
-        const objectSaved = await mapper.put(task);
-        console.log(objectSaved);
+        saveTasksAsync.push(mapper.put(task));
       }
+
+      const tasksSaved = await Promise.all<Task>(saveTasksAsync);
+
+      // Assert
+      console.log(tasksSaved);
+      expect(tasksSaved.length).toBe(3);
     });
   });
 });
