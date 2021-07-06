@@ -14,7 +14,7 @@ function logMetadata() {
 }
 
 /* ngrok sample:
- curl -X POST https://413e23aed16d.ngrok.io/tasks -H "Content-Type: application/json" -d @registerTaskSample.json
+ curl -X POST https://59929a5272f7.ngrok.io/dev/tasks -H "Content-Type: application/json" -d @registerTaskSample.json
  */
 // curl -X POST http://localhost:4000/tasks -H "Content-Type: application/json" -d @registerTaskSample.json
 // POST - https://4t6blqidpl.execute-api.us-east-1.amazonaws.com/dev/tasks

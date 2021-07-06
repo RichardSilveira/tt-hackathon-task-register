@@ -32,7 +32,7 @@ function logMetadata() {
 
 // For local tests only (using profile)
 const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
-const dynamoDBOptions = LAMBDA_ENV === 'local' ? { region: REGION, credentials } : { region: REGION };
+const dynamoDBOptions = LAMBDA_ENV === 'local' ? { region: REGION, correctClockSkew: true, credentials } : { region: REGION };
 
 const mapper = new DataMapper({
   client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
@@ -52,7 +52,7 @@ const app = new App({
 app.command('/tt', async ({ command, ack, say }) => {
   // Acknowledge command request
   await ack();
-  console.log('3');
+  console.log('2');
 
   try {
     const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());
@@ -69,7 +69,66 @@ app.command('/tt', async ({ command, ack, say }) => {
     const tasksSavedToStr = JSON.stringify(tasksSaved);
     console.log(tasksSavedToStr);
 
-    await say(`${JSON.stringify(tasksSaved)} to ${command.user_name} | ${command.user_id}`);
+    const registeredDate = new Date(tasks[0].registeredAt);
+
+    const month = registeredDate.toLocaleString('default', { month: 'long' });
+    const dayOfMonth = registeredDate.getDate();
+    const taskDescriptions = tasksSaved.map((task) => `•  ${task.taskTime}h: ${task.taskDescription} - <https://google.com|Delete> \n`).join('\n');
+
+    const blocks = [{
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: `:calendar: *${month}, ${dayOfMonth}th* \n\n ${taskDescriptions}`,
+      },
+    },
+    {
+      type: 'actions',
+      elements: [{
+        type: 'button',
+        text: {
+          type: 'plain_text',
+          text: 'Edit',
+          emoji: true,
+        },
+        value: 'click_me_123',
+      }],
+    }];
+
+    // const blocks = [{
+    //   type: 'actions',
+    //   elements: [{
+    //     type: 'button',
+    //     text: {
+    //       type: 'plain_text',
+    //       text: 'Edit',
+    //       emoji: true,
+    //     },
+    //     value: 'click_me_123',
+    //   }],
+    // }];
+
+    await say({ blocks });
+    // await say({
+    //   blocks: [{
+    //     "type": "section",
+    //     "text": {
+    //       "type": "mrkdwn",
+    //       "text": "Pick a date for me to remind you"
+    //     },
+    //     "accessory": {
+    //       "type": "datepicker",
+    //       "action_id": "datepicker_remind",
+    //       "initial_date": "2019-04-28",
+    //       "placeholder": {
+    //         "type": "plain_text",
+    //         "text": "Select a date"
+    //       }
+    //     }
+    //   }]
+    // });
+
+    // await say(blocks);
   } catch (e) {
     console.log(e);
   }
