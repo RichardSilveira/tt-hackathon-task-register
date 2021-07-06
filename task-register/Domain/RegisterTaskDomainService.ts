@@ -28,7 +28,7 @@ export class RegisterTaskDomainService {
       ...RegisterTaskDomainService.sampleFocalPoint,
       taskCategory: RegisterTaskDomainService.sampleTaskCategory,
       taskDescription: t.description,
-      registeredAt: t.date.toISOString(),
+      registeredAt: t.date,
       taskTime: t.time,
     }));
 

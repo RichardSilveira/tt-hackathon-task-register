@@ -49,7 +49,9 @@ const app = new App({
   processBeforeResponse: true,
 });
 
-app.command('/tt', async ({ command, ack, say }) => {
+app.command('/tt', async ({
+  command, ack, say, client, respond,
+}) => {
   // Acknowledge command request
   await ack();
   console.log('2');
@@ -69,7 +71,7 @@ app.command('/tt', async ({ command, ack, say }) => {
     const tasksSavedToStr = JSON.stringify(tasksSaved);
     console.log(tasksSavedToStr);
 
-    const registeredDate = new Date(tasks[0].registeredAt);
+    const registeredDate = tasks[0].registeredAt;
 
     const month = registeredDate.toLocaleString('default', { month: 'long' });
     const dayOfMonth = registeredDate.getDate();
@@ -95,40 +97,7 @@ app.command('/tt', async ({ command, ack, say }) => {
       }],
     }];
 
-    // const blocks = [{
-    //   type: 'actions',
-    //   elements: [{
-    //     type: 'button',
-    //     text: {
-    //       type: 'plain_text',
-    //       text: 'Edit',
-    //       emoji: true,
-    //     },
-    //     value: 'click_me_123',
-    //   }],
-    // }];
-
     await say({ blocks });
-    // await say({
-    //   blocks: [{
-    //     "type": "section",
-    //     "text": {
-    //       "type": "mrkdwn",
-    //       "text": "Pick a date for me to remind you"
-    //     },
-    //     "accessory": {
-    //       "type": "datepicker",
-    //       "action_id": "datepicker_remind",
-    //       "initial_date": "2019-04-28",
-    //       "placeholder": {
-    //         "type": "plain_text",
-    //         "text": "Select a date"
-    //       }
-    //     }
-    //   }]
-    // });
-
-    // await say(blocks);
   } catch (e) {
     console.log(e);
   }

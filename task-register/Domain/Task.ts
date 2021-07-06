@@ -12,7 +12,7 @@ export default class Task {
   employeeId:string;
 
   @rangeKey()
-  registeredAt:string;
+  registeredAt:Date;
 
   @attribute()
   employeeName:string;
