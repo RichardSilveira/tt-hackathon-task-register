@@ -4,14 +4,15 @@ import {
   rangeKey,
   table,
 } from '@aws/dynamodb-data-mapper-annotations';
+import { DynamoDB } from 'aws-sdk';
 
-@table('TaskRegistration')
+@table('Task')
 export default class Task {
   @hashKey()
   employeeId:string;
 
   @rangeKey()
-  registeredAt:Date;
+  registeredAt:string;
 
   @attribute()
   employeeName:string;

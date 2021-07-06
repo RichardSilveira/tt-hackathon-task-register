@@ -12,13 +12,16 @@ token=RJif0eNEGkMmcYDlep6j7CKQ&team_id=T025UPB4G8M
 import { DataMapper } from '@aws/dynamodb-data-mapper';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 
+import { SharedIniFileCredentials } from 'aws-sdk';
 import { RegisterTaskDomainService } from '../Domain/RegisterTaskDomainService';
 import { SingleLineTaskExtractorHandler } from '../Domain/SingleLineTaskExtractorHandler';
 
 const REGION = 'us-east-1';
 
+const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
+
 const mapper = new DataMapper({
-  client: new DynamoDB({ region: REGION, endpoint: `https://dynamodb.${REGION}.amazonaws.com` }), // the SDK client used to execute operations
+  client: new DynamoDB({ region: REGION, credentials }), // the SDK client used to execute operations
 });
 
 describe('Handling slack commands to register tasks', () => {
@@ -36,6 +39,7 @@ describe('Handling slack commands to register tasks', () => {
       const tasks = registerTaskDomainService.generateTasksFrom(command.text, command.user_id, command.user_name);
 
       for (const task of tasks) {
+        console.log('2');
         const objectSaved = await mapper.put(task);
         console.log(objectSaved);
       }
