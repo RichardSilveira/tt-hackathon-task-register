@@ -10,6 +10,15 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - ~/.aws:/root/.aws
+    environment:
+      NODE_ENV: development
+      LAMBDA_ENV: 'local'
+      REGION: ${REGION}
+      STAGE: ${STAGE}
+      SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_USER_TOKEN: ${SLACK_USER_TOKEN}
   ngrok:
     image: wernight/ngrok:latest
     ports:

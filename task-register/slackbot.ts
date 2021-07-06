@@ -6,8 +6,10 @@ import { DataMapper } from '@aws/dynamodb-data-mapper';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 
 import { App, AwsLambdaReceiver } from '@slack/bolt';
+import { SharedIniFileCredentials } from 'aws-sdk';
 import { RegisterTaskDomainService } from './Domain/RegisterTaskDomainService';
 import { SingleLineTaskExtractorHandler } from './Domain/SingleLineTaskExtractorHandler';
+import Task from './Domain/Task';
 // import Task from 'Domain/Task';
 
 const STAGE = process.env.STAGE;
@@ -15,6 +17,7 @@ const REGION = process.env.REGION;
 const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const SLACK_USER_TOKEN = process.env.SLACK_BOT_TOKEN;
+const LAMBDA_ENV = process.env.LAMBDA_ENV;
 
 function logMetadata() {
   console.log('environment variables:', {
@@ -23,11 +26,16 @@ function logMetadata() {
     SLACK_SIGNING_SECRET,
     SLACK_BOT_TOKEN,
     SLACK_USER_TOKEN,
+    LAMBDA_ENV,
   });
 }
 
+// For local tests only (using profile)
+const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
+const dynamoDBOptions = LAMBDA_ENV === 'local' ? { region: REGION, credentials } : { region: REGION };
+
 const mapper = new DataMapper({
-  client: new DynamoDB({ region: REGION }), // the SDK client used to execute operations
+  client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
 });
 
 const awsLambdaReceiver = new AwsLambdaReceiver({
@@ -44,20 +52,24 @@ const app = new App({
 app.command('/tt', async ({ command, ack, say }) => {
   // Acknowledge command request
   await ack();
-  console.log('test 4');
-  console.log('test 5');
+  console.log('3');
 
   try {
     const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());
 
     const tasks = registerTaskDomainService.generateTasksFrom(command.text, command.user_id, command.user_name);
-    const task = tasks[0];
-    console.log(task);
 
-    const objectSaved = await mapper.put(task);
-    console.log(objectSaved);
+    const saveTasksAsync = [];
+    for (const task of tasks) {
+      saveTasksAsync.push(mapper.put(task));
+    }
 
-    await say(`${objectSaved} to ${command.user_name} | ${command.user_id}`);
+    const tasksSaved = await Promise.all<Task>(saveTasksAsync);
+
+    const tasksSavedToStr = JSON.stringify(tasksSaved);
+    console.log(tasksSavedToStr);
+
+    await say(`${JSON.stringify(tasksSaved)} to ${command.user_name} | ${command.user_id}`);
   } catch (e) {
     console.log(e);
   }
