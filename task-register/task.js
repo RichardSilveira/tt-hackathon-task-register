@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const registerTaskSampleJson = require('./registerTaskSample.json');
+import { saveTasks, getTasksByEmployee } from './slackbot'
 
 AWS.config.update({ region: process.env.REGION });
 
@@ -25,8 +26,8 @@ export const registerTasks = async (event, context) => {
   const registerTaskReq = JSON.parse(event.body);
   console.log(registerTaskReq);
 
-  const registerTaskModel = registerTaskSampleJson;
-  console.log(registerTaskModel);
+  const registerTaskModel = await saveTasks(registerTaskReq);
+  console.log(registerTaskReq);
 
   // todo: configure dynamodbmapper: https://www.one-tab.com/page/kRWYhVKPRpKwreAJa3WRNw
 
@@ -44,8 +45,6 @@ export const registerTasks = async (event, context) => {
 export const getTasks = async (event, context) => ({
   statusCode: 200,
   body: JSON.stringify({
-    data: [registerTaskSampleJson,
-      { ...registerTaskSampleJson, taskDescription: 'Code review 2', taskTime: 3 },
-      { ...registerTaskSampleJson, taskDescription: 'meetings 8', taskTime: 4 }],
+    data: await getTasksByEmployee('1')
   }),
 });

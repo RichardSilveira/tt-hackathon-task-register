@@ -4,6 +4,7 @@ import type { APIGatewayProxyHandler } from 'aws-lambda';
 
 import { DataMapper } from '@aws/dynamodb-data-mapper';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
+import { ConditionExpression, equals } from '@aws/dynamodb-expressions';
 
 import { App, AwsLambdaReceiver } from '@slack/bolt';
 import { SharedIniFileCredentials } from 'aws-sdk';
@@ -57,21 +58,12 @@ app.command('/tt', async ({
   console.log('2');
 
   try {
-    const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());
-
-    const tasks = registerTaskDomainService.generateTasksFrom(command.text, command.user_id, command.user_name);
-
-    const saveTasksAsync = [];
-    for (const task of tasks) {
-      saveTasksAsync.push(mapper.put(task));
-    }
-
-    const tasksSaved = await Promise.all<Task>(saveTasksAsync);
+    const tasksSaved = await saveTasks(command)
 
     const tasksSavedToStr = JSON.stringify(tasksSaved);
     console.log(tasksSavedToStr);
 
-    const registeredDate = tasks[0].registeredAt;
+    const registeredDate = tasksSaved[0].registeredAt;
 
     const month = registeredDate.toLocaleString('default', { month: 'long' });
     const dayOfMonth = registeredDate.getDate();
@@ -112,3 +104,59 @@ export const events: APIGatewayProxyHandler = async (event, context) => {
 
   return bolt(event, context);
 };
+
+export const saveTasks = async ({text, user_id, user_name}) => {
+  const registerTaskDomainService = new RegisterTaskDomainService(new SingleLineTaskExtractorHandler());
+
+    const tasks = registerTaskDomainService.generateTasksFrom(text, user_id, user_name);
+
+    const saveTasksAsync = [];
+    for (const task of tasks) {
+      saveTasksAsync.push(mapper.put(task));
+    }
+
+    const tasksSaved = await Promise.all<Task>(saveTasksAsync);
+
+    console.log("TASKS SAVED: ", tasksSaved)
+    return tasksSaved;
+}
+
+export const getTasksByEmployee = async (userId) => {
+  // Gambiarra: I'm so tired that could make the query/scan conditions to work
+  // so it scans everything then filters. B)
+  try {
+    let formatted = [];
+    const groupByDate = {}
+    const results = mapper.scan(Task);
+    for await (const record of results) {
+      console.log(record);
+      if(record.employeeId === userId){
+        const date = new Date(record.registeredAt);
+        const keyDate = `${date.getMonth()+1}/${date.getDate()}`
+        if(typeof groupByDate[keyDate] === "undefined") groupByDate[keyDate] = [];
+        groupByDate[keyDate].push(record);
+      } 
+    }
+    
+    for (let key in groupByDate){
+      formatted.push({
+        date: key,
+        tasks: groupByDate[key]
+      })
+    }
+
+    formatted = formatted.sort((a,b) => {
+      function dateToValue(date){
+        const dateSplit = date.split('/');
+        return parseInt(dateSplit[0])*100 + parseInt(dateSplit[1]);
+      }
+  
+      return dateToValue(b.date) - dateToValue(a.date);
+    })
+
+    return formatted;
+  }
+  catch(error){
+    console.error(error)
+  }
+}

@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
+    "@aws/dynamodb-expressions": "^0.7.3",
     "@slack/bolt": "^3.4.0",
     "@types/aws-lambda": "^8.10.77",
     "@types/jest": "^26.0.23",
