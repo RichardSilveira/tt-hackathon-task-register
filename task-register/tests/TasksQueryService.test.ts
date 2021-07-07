@@ -35,4 +35,31 @@ describe('Retrieving user worked hours', () => {
     const tasks = await new TasksQueryService().getTasksByEmployee(command.user_id);
     expect(tasks.length).toBeGreaterThan(0);
   });
+
+  it('Building the expected Task block for the Slack Home Page', async () => {
+    const tasksGroupedByDate = await new TasksQueryService().getTasksByEmployee(command.user_id);
+
+    const sections = tasksGroupedByDate.map((groupedTask) => {
+      const date = new Date(groupedTask.date);
+      const month = date.toLocaleString('default', { month: 'long' });
+      const dayOfMonth = date.getDate();
+
+      const taskDescriptions = groupedTask.tasks.map((task) => `•  ${task.taskTime}h: ${task.taskDescription} - <https://google.com|Delete> \n`).join('\n');
+
+      const section = {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `:calendar: *${month}, ${dayOfMonth}th* \n\n ${taskDescriptions}`,
+        },
+      };
+
+      console.log(section);
+
+      return section;
+    });
+
+    console.log(sections);
+    expect(sections.length).toBeGreaterThan(0);
+  });
 });
