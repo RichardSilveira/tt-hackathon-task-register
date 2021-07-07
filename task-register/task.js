@@ -1,3 +1,5 @@
+import TasksQueryService from "./Domain/TasksQueryService";
+
 const AWS = require('aws-sdk');
 const registerTaskSampleJson = require('./registerTaskSample.json');
 import { saveTasks, getTasksByEmployee } from './slackbot'
@@ -42,9 +44,13 @@ export const registerTasks = async (event, context) => {
 // npm i -g json ->
 // curl http://localhost:4000/dev/tasks/005013b9-6eb0-4d7d-a524-c506186ec071 -H "Content-Type: application/json" | json
 // GET - https://4t6blqidpl.execute-api.us-east-1.amazonaws.com/dev/tasks/{employeeId}
-export const getTasks = async (event, context) => ({
-  statusCode: 200,
-  body: JSON.stringify({
-    data: await getTasksByEmployee('1')
-  }),
-});
+export const getTasks = async (event, context) => {
+  //TODO receive the user id and pass as parameter
+  const tasks = await new TasksQueryService().getTasksByEmployee('1');
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      data: tasks
+    }),
+  }
+};
