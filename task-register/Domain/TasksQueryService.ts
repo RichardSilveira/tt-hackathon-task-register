@@ -6,10 +6,14 @@ import Task from './Task';
 const REGION = 'us-east-1';
 
 // For local tests only (using profile)
-const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
+// LOCAL ONLY
+// const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
+
+// deployed
+const dynamoDBOptions = { region: REGION };
 
 const mapper = new DataMapper({
-  client: new DynamoDB({ region: REGION, credentials }), // the SDK client used to execute operations
+  client: new DynamoDB({ region: REGION }), // the SDK client used to execute operations
 });
 
 export default class TasksQueryService {

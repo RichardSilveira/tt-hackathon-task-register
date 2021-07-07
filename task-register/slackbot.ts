@@ -34,9 +34,13 @@ function logMetadata() {
 }
 
 // For local tests only (using profile)
-const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
-const dynamoDBOptions = LAMBDA_ENV === 'local' ? { region: REGION, correctClockSkew: true, credentials } : { region: REGION };
 
+// const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
+// LOCAL ===
+// const dynamoDBOptions = LAMBDA_ENV === 'local' ? { region: REGION, correctClockSkew: true, credentials: new SharedIniFileCredentials({ profile: 'tt-admin' }) } : { region: REGION };
+
+// AWS ===
+const dynamoDBOptions ={ region: REGION };
 const mapper = new DataMapper({
   client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
 });
@@ -91,7 +95,7 @@ app.command('/tt', async ({
       }],
     }];
 
-    await updateUserHomeTab(client, command.user_id);
+    updateUserHomeTab(client, command.user_id);
     await say({ blocks });
   } catch (e) {
     console.log(e);
