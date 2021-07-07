@@ -8,6 +8,7 @@ import { ConditionExpression, equals } from '@aws/dynamodb-expressions';
 
 import { App, AwsLambdaReceiver } from '@slack/bolt';
 import { SharedIniFileCredentials } from 'aws-sdk';
+import { WebClient } from '@slack/web-api';
 import { RegisterTaskDomainService } from './Domain/RegisterTaskDomainService';
 import { SingleLineTaskExtractorHandler } from './Domain/SingleLineTaskExtractorHandler';
 import Task from './Domain/Task';
@@ -89,11 +90,43 @@ app.command('/tt', async ({
       }],
     }];
 
+    await updateUserHomeTab(client, command.user_id);
     await say({ blocks });
   } catch (e) {
     console.log(e);
   }
 });
+
+const updateUserHomeTab = async (client:WebClient, userId: string) => {
+  const blocks = [{
+    type: 'section',
+    text: {
+      type: 'mrkdwn',
+      text: ':calendar: text',
+    },
+  },
+  {
+    type: 'actions',
+    elements: [{
+      type: 'button',
+      text: {
+        type: 'plain_text',
+        text: 'Edit',
+        emoji: true,
+      },
+      value: 'click_me_123',
+    }],
+  }];
+
+  return client.views.publish({
+    token: SLACK_BOT_TOKEN,
+    user_id: userId,
+    view: {
+      type: 'home',
+      blocks,
+    },
+  });
+};
 
 export const events: APIGatewayProxyHandler = async (event, context) => {
   logMetadata();
