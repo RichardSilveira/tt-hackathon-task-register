@@ -32,11 +32,7 @@ export class RegisterTaskDomainService {
       taskTime: t.time,
     }));
 
-    // TODO save the tasks here.
-
     return tasks;
-
-    // todo: simplest version for the demo
   }
 
   // archnote:
