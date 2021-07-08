@@ -1,4 +1,4 @@
-import { SingleLineTaskExtractorHandler } from '../Domain/SingleLineTaskExtractorHandler';
+import { SingleLineTaskExtractorHandler } from '../src/Domain/SingleLineTaskExtractorHandler';
 
 describe('Extracting task entries from a single line raw text user input', () => {
   describe('Considering the valid formats for the MVP:', () => {

@@ -42,20 +42,20 @@ environment:
 
 functions:
   slackEvents:
-    handler: slackbot.events
+    handler: src/slackbot.events
     events:
       - http:
           path: slack/events
           method: post
   registerTasks:
-    handler: task.registerTasks
+    handler: src/task.registerTasks
     events:
       - http:
           path: tasks
           method: post
           cors: false
   getTasks:
-    handler: task.getTasks
+    handler: src/task.getTasks
     events:
       - http:
           path: tasks/{employeeId}

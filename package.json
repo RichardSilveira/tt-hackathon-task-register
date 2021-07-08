@@ -9,7 +9,7 @@
     "test:watch": "npx jest --watch",
     "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
     "deploy": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
-    "lint": "npx eslint --ext .ts ./",
+    "lint": "npx eslint --ext .ts ./src",
     "build": "tsc",
     "postinstall": "husky install"
   },

@@ -1,8 +1,8 @@
 # Typescript
 
-*.js.map
-**/*.js.map
-**/*.js
+src/*.js*
+src/**/*.js*
+!src/task.js
 
 
 # Logs

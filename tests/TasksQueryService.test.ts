@@ -1,9 +1,9 @@
 import { DataMapper } from '@aws/dynamodb-data-mapper';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { SharedIniFileCredentials } from 'aws-sdk';
-import { RegisterTaskDomainService } from '../Domain/RegisterTaskDomainService';
-import { SingleLineTaskExtractorHandler } from '../Domain/SingleLineTaskExtractorHandler';
-import TasksQueryService from '../Domain/TasksQueryService';
+import { RegisterTaskDomainService } from '../src/Domain/RegisterTaskDomainService';
+import { SingleLineTaskExtractorHandler } from '../src/Domain/SingleLineTaskExtractorHandler';
+import TasksQueryService from '../src/Domain/TasksQueryService';
 
 const REGION = 'us-east-1';
 
