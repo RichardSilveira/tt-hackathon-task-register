@@ -1,0 +1,3 @@
+{
+  "*.ts-disabletemp": "npx eslint --fix"
+}

@@ -9,8 +9,9 @@
     "test:watch": "npx jest --watch",
     "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
     "deploy": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
-    "lint": "npx eslint --fix --ext .ts ./",
-    "build": "tsc"
+    "lint": "npx eslint --ext .ts ./",
+    "build": "tsc",
+    "postinstall": "husky install"
   },
   "author": "",
   "license": "MIT",
@@ -20,6 +21,8 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.7",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
     "babel-jest": "^26.6.3",
@@ -28,6 +31,8 @@
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.0",
     "serverless": "^2.50.0",
     "serverless-bundle": "4.3.1",
     "serverless-dotenv-plugin": "^3.9.0",
