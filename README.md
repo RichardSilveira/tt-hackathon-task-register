@@ -1,4 +1,4 @@
-![test workflow](https://github.com/RichardSilveira/tt-hackathon-task-register/actions/workflows/test/badge.svg)
+![test workflow](https://github.com/RichardSilveira/tt-hackathon-task-register/actions/workflows/test.yml/badge.svg)
 
 # tt-hackathon-task-register
 
