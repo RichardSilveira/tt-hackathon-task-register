@@ -6,6 +6,9 @@ services:
       context: .
       target: test
     image: task-register:test
+    volumes:
+      - .:/app
+      - /app/node_modules
     environment:
       NODE_ENV: development
       LAMBDA_ENV: test

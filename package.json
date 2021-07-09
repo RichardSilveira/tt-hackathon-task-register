@@ -8,7 +8,8 @@
     "test": "npx --no-install jest",
     "test:watch": "npx --no-install jest --watch",
     "package": "set SLS_DEBUG=* && sls package --stage dev --region us-east-1 --aws-profile tt-admin",
-    "deploy": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
+    "deploy:local": "sls deploy --stage dev --region us-east-1 --aws-profile tt-admin",
+    "deploy": "sls deploy --stage dev --region us-east-1",
     "lint": "npx --no-install eslint --ext .ts ./src",
     "build": "tsc",
     "postinstall": "husky install"

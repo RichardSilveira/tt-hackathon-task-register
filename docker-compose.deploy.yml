@@ -1,14 +1,14 @@
 version: "3.9"
 services:
   app:
-    container_name: task-register-test
+    container_name: task-register-deploy
     build:
       context: .
-      target: test
-    image: task-register:test
+      target: deploy
+    image: task-register:deploy
     environment:
-      NODE_ENV: development
-      LAMBDA_ENV: test
+      NODE_ENV: production
+      LAMBDA_ENV: deploy
       REGION: ${REGION}
       STAGE: ${STAGE}
       SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
