@@ -3,17 +3,15 @@ import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { SharedIniFileCredentials } from 'aws-sdk';
 import Task from './Task';
 
-const REGION = 'us-east-1';
+const REGION = process.env.REGION;
+const LAMBDA_ENV = process.env.LAMBDA_ENV;
+console.log({ REGION, LAMBDA_ENV });
 
-// For local tests only (using profile)
-// LOCAL ONLY
-// const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
-
-// deployed
-const dynamoDBOptions = { region: REGION };
+const dynamoDBOptions = LAMBDA_ENV !== 'local' ? { region: REGION, correctClockSkew: true }
+  : { region: REGION, correctClockSkew: true, credentials: new SharedIniFileCredentials({ profile: 'tt-admin' }) };
 
 const mapper = new DataMapper({
-  client: new DynamoDB({ region: REGION }), // the SDK client used to execute operations
+  client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
 });
 
 export default class TasksQueryService {
@@ -32,6 +30,7 @@ export default class TasksQueryService {
         groupByDate[keyDate].push(record);
       }
 
+      // eslint-disable-next-line guard-for-in
       for (const key in groupByDate) {
         formatted.push({
           date: key,

@@ -5,13 +5,13 @@ import { RegisterTaskDomainService } from '../src/Domain/RegisterTaskDomainServi
 import { SingleLineTaskExtractorHandler } from '../src/Domain/SingleLineTaskExtractorHandler';
 import TasksQueryService from '../src/Domain/TasksQueryService';
 
-const REGION = 'us-east-1';
-
+const REGION = process.env.REGION;
 const LAMBDA_ENV = process.env.LAMBDA_ENV;
-console.log('LAMBDA_ENV', LAMBDA_ENV);
-const dynamoDBOptions = LAMBDA_ENV !== 'local' ? { region: REGION }
+console.log({ REGION, LAMBDA_ENV });
+
+const dynamoDBOptions = LAMBDA_ENV !== 'local' ? { region: REGION, correctClockSkew: true }
   : { region: REGION, correctClockSkew: true, credentials: new SharedIniFileCredentials({ profile: 'tt-admin' }) };
-console.log(dynamoDBOptions);
+
 const mapper = new DataMapper({
   client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
 });
@@ -56,12 +56,9 @@ describe('Retrieving user worked hours', () => {
         },
       };
 
-      console.log(section);
-
       return section;
     });
 
-    console.log(sections);
     expect(sections.length).toBeGreaterThan(0);
   });
 });

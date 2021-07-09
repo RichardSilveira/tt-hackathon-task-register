@@ -4,6 +4,9 @@ src/*.js*
 src/**/*.js*
 !src/task.js
 
+test/*.js*
+test/**/*.js*
+
 
 # Logs
 logs

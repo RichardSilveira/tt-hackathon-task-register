@@ -21,6 +21,9 @@ module.exports = {
     'prefer-destructuring': 'off',
     'linebreak-style': 'off',
     '@typescript-eslint/no-extra-semi': 'off',
-    'class-methods-use-this': 'off'
+    'class-methods-use-this': 'off',
+    'no-restricted-syntax': 'off',
+    'radix': 'off',
+    '@typescript-eslint/no-use-before-define': 'off'
   }
 }

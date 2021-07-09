@@ -4,7 +4,6 @@ import type { APIGatewayProxyHandler } from 'aws-lambda';
 
 import { DataMapper } from '@aws/dynamodb-data-mapper';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
-import { ConditionExpression, equals } from '@aws/dynamodb-expressions';
 
 import { App, AwsLambdaReceiver } from '@slack/bolt';
 import { SharedIniFileCredentials } from 'aws-sdk';
@@ -13,7 +12,6 @@ import { RegisterTaskDomainService } from './Domain/RegisterTaskDomainService';
 import { SingleLineTaskExtractorHandler } from './Domain/SingleLineTaskExtractorHandler';
 import Task from './Domain/Task';
 import TasksQueryService from './Domain/TasksQueryService';
-// import Task from 'Domain/Task';
 
 const STAGE = process.env.STAGE;
 const REGION = process.env.REGION;
@@ -33,14 +31,9 @@ function logMetadata() {
   });
 }
 
-// For local tests only (using profile)
+const dynamoDBOptions = LAMBDA_ENV !== 'local' ? { region: REGION, correctClockSkew: true }
+  : { region: REGION, correctClockSkew: true, credentials: new SharedIniFileCredentials({ profile: 'tt-admin' }) };
 
-// const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
-// LOCAL ===
-// const dynamoDBOptions = LAMBDA_ENV === 'local' ? { region: REGION, correctClockSkew: true, credentials: new SharedIniFileCredentials({ profile: 'tt-admin' }) } : { region: REGION };
-
-// AWS ===
-const dynamoDBOptions ={ region: REGION };
 const mapper = new DataMapper({
   client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
 });
@@ -57,11 +50,10 @@ const app = new App({
 });
 
 app.command('/tt', async ({
-  command, ack, say, client, respond,
+  command, ack, say, client,
 }) => {
   // Acknowledge command request
   await ack();
-  console.log('2');
 
   try {
     const tasksSaved = await saveTasks(command);

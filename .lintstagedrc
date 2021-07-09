@@ -1,4 +1,3 @@
 {
-  "*": "git add",
-  "*.ts": "npx eslint --fix"
+  "*.ts": "npx --no-install eslint --fix"
 }

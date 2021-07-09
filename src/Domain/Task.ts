@@ -4,7 +4,6 @@ import {
   rangeKey,
   table,
 } from '@aws/dynamodb-data-mapper-annotations';
-import { DynamoDB } from 'aws-sdk';
 
 @table('Task')
 export default class Task {

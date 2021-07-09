@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   app:
-    container_name: task-register
+    container_name: task-register-test
     build:
       context: .
       target: test
@@ -17,3 +17,6 @@ services:
       SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_USER_TOKEN: ${SLACK_USER_TOKEN}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+# todo: create docker-compose.test to read env vars from github secrets and not from a local .env file existing in the root directory

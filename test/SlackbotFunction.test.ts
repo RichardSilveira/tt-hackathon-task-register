@@ -17,13 +17,15 @@ import { RegisterTaskDomainService } from '../src/Domain/RegisterTaskDomainServi
 import { SingleLineTaskExtractorHandler } from '../src/Domain/SingleLineTaskExtractorHandler';
 import Task from '../src/Domain/Task';
 
-const REGION = 'us-east-1';
+const REGION = process.env.REGION;
+const LAMBDA_ENV = process.env.LAMBDA_ENV;
+console.log({ REGION, LAMBDA_ENV });
 
-// For local tests only (using profile)
-const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
+const dynamoDBOptions = LAMBDA_ENV !== 'local' ? { region: REGION, correctClockSkew: true }
+  : { region: REGION, correctClockSkew: true, credentials: new SharedIniFileCredentials({ profile: 'tt-admin' }) };
 
 const mapper = new DataMapper({
-  client: new DynamoDB({ region: REGION, credentials }), // the SDK client used to execute operations
+  client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
 });
 
 describe('Handling slack commands to register tasks', () => {
@@ -42,6 +44,7 @@ describe('Handling slack commands to register tasks', () => {
 
       // Act
       const saveTasksAsync = [];
+
       for (const task of tasks) {
         saveTasksAsync.push(mapper.put(task));
       }
@@ -49,7 +52,6 @@ describe('Handling slack commands to register tasks', () => {
       const tasksSaved = await Promise.all<Task>(saveTasksAsync);
 
       // Assert
-      console.log(tasksSaved);
       expect(tasksSaved.length).toBe(3);
     });
   });
