@@ -7,11 +7,13 @@ import TasksQueryService from '../src/Domain/TasksQueryService';
 
 const REGION = 'us-east-1';
 
-// For local tests only (using profile)
-const credentials = new SharedIniFileCredentials({ profile: 'tt-admin' });
-
+const LAMBDA_ENV = process.env.LAMBDA_ENV;
+console.log('LAMBDA_ENV', LAMBDA_ENV);
+const dynamoDBOptions = LAMBDA_ENV !== 'local' ? { region: REGION }
+  : { region: REGION, correctClockSkew: true, credentials: new SharedIniFileCredentials({ profile: 'tt-admin' }) };
+console.log(dynamoDBOptions);
 const mapper = new DataMapper({
-  client: new DynamoDB({ region: REGION, credentials }), // the SDK client used to execute operations
+  client: new DynamoDB(dynamoDBOptions), // the SDK client used to execute operations
 });
 
 let command:any = {
