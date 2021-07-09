@@ -2,6 +2,8 @@ FROM node:14-alpine AS build
 
 WORKDIR /app
 
+RUN apk add python
+
 COPY package*.json ./
 
 # Installing all dependencies regardless of NODE_ENV value
