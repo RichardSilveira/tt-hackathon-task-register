@@ -1,8 +1,4 @@
-on:
-  push:
-    branches:
-      - *
-
+on: push
 name: test
 jobs:
   test:
