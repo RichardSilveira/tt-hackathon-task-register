@@ -2,7 +2,7 @@ import TasksQueryService from "./Domain/TasksQueryService";
 
 const AWS = require('aws-sdk');
 const registerTaskSampleJson = require('../registerTaskSample.json');
-import { saveTasks, getTasksByEmployee } from '../slackbot'
+import { saveTasks, getTasksByEmployee } from './slackbot'
 
 AWS.config.update({ region: process.env.REGION });
 

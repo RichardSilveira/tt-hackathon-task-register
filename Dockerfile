@@ -9,7 +9,7 @@ COPY package*.json ./
 # Installing all dependencies regardless of NODE_ENV value
 RUN npm ci --include=dev
 
-COPY . ./app
+COPY . ./
 
 FROM node:14-alpine AS test
 

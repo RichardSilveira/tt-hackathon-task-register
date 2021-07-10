@@ -8,7 +8,6 @@ package:
 plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
-  - serverless-dotenv-plugin # Load .env as environment variables
 
 custom:
   serverless-offline:
@@ -36,9 +35,13 @@ provider:
           limit: 200_000
           period: MONTH
 
-environment:
-  STAGE: ${opt:stage}
-  REGION: ${opt:region}
+  environment:
+    STAGE: ${opt:stage}
+    REGION: ${opt:region}
+    LAMBDA_ENV: ${env:LAMBDA_ENV}
+    SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
+    SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
+    SLACK_USER_TOKEN: ${env:SLACK_USER_TOKEN}
 
 functions:
   slackEvents:

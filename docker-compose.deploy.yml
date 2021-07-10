@@ -7,7 +7,7 @@ services:
       target: deploy
     image: task-register:deploy
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       LAMBDA_ENV: deploy
       REGION: ${REGION}
       STAGE: ${STAGE}
